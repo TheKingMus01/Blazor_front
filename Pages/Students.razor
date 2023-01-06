@@ -1,0 +1,93 @@
+﻿@page "/students"
+
+
+<h3>Students</h3>
+
+
+<EditForm Model="@etudiant">
+    <div>
+        <h1>Ajouter</h1>
+    </div>
+    <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" placeholder="Nom" @bind-value="@etudiant.Nom">
+    </div>
+    <div class="form-group">
+        <label for="prenom">Prenom</label>
+        <input type="text" class="form-control" id="prenom" placeholder="Prenom" @bind-value="@etudiant.Prenom">
+    </div>
+    <div class="form-group">
+        <label for="class">Age</label>
+        <input type="text" class="form-control" id="class" placeholder="Class" @bind-value="@etudiant.Age">
+    </div>
+
+    <button type="submit" class="btn btn-primary" @onclick=@AjouterEtd>Submit</button>
+
+</EditForm>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Age</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in lst)
+        {
+            <tr>
+                <td>@student.Nom</td>
+                <td>@student.Prenom</td>
+                <td>@student.Age</td>
+                <a href="/edition/@student.Idstd">
+                    <button class="btn btn-primary" @onclick="EditStudent">Edit Student</button>
+                </a>
+                <a href="/supp/@student.Idstd"><button class="btn btn-primary" @onclick="DeleteStudent">
+                    Delete Student</button> </a>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+	static ShoppingSRV.ServiceClient proxy = new ShoppingSRV.ServiceClient();
+	List<ShoppingSRV.students> lst = proxy.GetStudents();
+
+
+
+
+
+
+
+    public ShoppingSRV.students etudiant = new ShoppingSRV.students();
+
+    @inject NavigationManager UriHelper
+
+    public void AjouterEtd()
+    {
+        proxy.CreateNewStudent(etudiant);
+        //UriHelper.NavigateTo("");
+        UriHelper.NavigateTo(UriHelper.Uri, forceLoad: true);
+
+    }
+
+    void EditStudent()
+    {
+
+    }
+
+    void DeleteStudent()
+    {
+
+    }
+   
+
+
+
+}

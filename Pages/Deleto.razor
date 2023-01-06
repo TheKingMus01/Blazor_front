@@ -1,0 +1,28 @@
+﻿@page "/deleto"
+<h3>Deleto</h3>
+
+@page "/supp/{id}"
+
+<h3>SuppEtd</h3>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    static ShoppingSRV.ServiceClient proxy = new ShoppingSRV.ServiceClient();
+    public ShoppingSRV.students etudiant = new ShoppingSRV.students();
+
+
+    @inject NavigationManager UriHelper
+
+    protected override async Task OnInitializedAsync()
+    {
+        suppEtd();
+    }
+
+    public void suppEtd()
+    {
+        proxy.DeleteWithId(int.Parse(Id));
+        UriHelper.NavigateTo("students");
+    }
+}
